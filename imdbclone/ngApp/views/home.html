@@ -5,13 +5,18 @@
 <hr/>
     <label>Director</label>
 <input type="text" ng-model="controller.newMovie.director">
+<hr/>
+<label>picture</label>
+<input type="text" ng-model="controller.newMovie.picture">
 <button type="submit">Search/Add</button>
 </form>
-<ul>
+<ul class="movie-list">
     <li ng-repeat="movie in controller.movies">
         {{movie.title}}: {{movie.director}}
         <hr/>
-        <img ng-src="{{movie.picture}}" />
+        <img ng-src="{{movie.picture}}"  style="max-width:200px" />
+        <a href="/edit/{{movie._id}}">Edit</a>
+        <a href="#" ng-click="controller.removeMovie(movie._id)">Delete</a>
     </li>
 
 </ul>

@@ -13,10 +13,10 @@ namespace imdbclone {
                 controller: imdbclone.Controllers.HomeController,
                 controllerAs: 'controller'
             })
-            .state('about', {
-                url: '/about',
-                templateUrl: '/ngApp/views/about.html',
-                controller: imdbclone.Controllers.AboutController,
+            .state('edit', {
+                url: '/edit/:id',
+                templateUrl: '/ngApp/views/edit.html',
+                controller: imdbclone.Controllers.EditController,
                 controllerAs: 'controller'
             })
             .state('notFound', {

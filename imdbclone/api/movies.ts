@@ -28,32 +28,32 @@ router.get('/movies', function(req, res, next) {
 });
 
 /* GET movie by id */
-router.get('/movies/:title', function(req, res, next) {
-  Movie.find({title:req.params.title}).then((movies) => {
+router.get('/movies/:id', function(req, res, next) {
+  console.log(req.params)
+  Movie.findOne({_id:req.params.id}).then((movies) => {
+    console.log(movies)
     res.json(movies);
   }).catch((err) => {
     console.log('NOOOOO', err);
   })
 });
 
-/* Post to create or update movie */
+
+
 router.post('/movies', function(req, res, next) {
   let movie = req.body;
   // update existing movie
   if (movie._id) {
-    Movie.update({_id:movie._id}, {title:movie.title, director:movie.director})
+    //TODO: fix this later. Make it nice and DRY.
+    Movie.update({_id:movie._id}, {title:movie.title, director:movie.director, picture: movie.picture})
     .then((results) => {
-      Movie.find().then((movies) => {
-        res.json(movies);
-      }).catch((err) => {
-        console.log('gaaaah', err);
-      });
+      res.sendStatus(200);
     }).catch((err) => {
       console.log('meh', err);
     });
   // create new movie
   } else {
-    Movie.create({title:movie.title, director:movie.director}).then((results) => {
+    Movie.create({title:movie.title, director:movie.director, picture: movie.picture}).then((results) => {
       Movie.find().then((movies) => {
         res.json({data:movies});
       }).catch((err) => {
@@ -63,6 +63,16 @@ router.post('/movies', function(req, res, next) {
       console.log('blech', err);
     });
   }
+});
+
+router.delete('/movies/:_id', (req, res) => {
+  let movieId = req.params._id;
+  console.log(req.params)
+  Movie.remove({_id:movieId}).then(() => {
+    res.sendStatus(200);
+  }).catch((err) => {
+    console.log(err);
+  });
 });
 
 // /* delete movie by id */
