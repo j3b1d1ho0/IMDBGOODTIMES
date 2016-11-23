@@ -1,0 +1,17 @@
+<h1>IMDB CLONE</h1>
+<form ng-submit="controller.movieAdd()">
+<label>Title</label>
+<input type="text" ng-model="controller.newMovie.title">
+<hr/>
+    <label>Director</label>
+<input type="text" ng-model="controller.newMovie.director">
+<button type="submit">Search/Add</button>
+</form>
+<ul>
+    <li ng-repeat="movie in controller.movies">
+        {{movie.title}}: {{movie.director}}
+        <hr/>
+        <img ng-src="{{movie.picture}}" />
+    </li>
+
+</ul>
