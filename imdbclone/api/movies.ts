@@ -38,32 +38,41 @@ router.get('/movies/:id', function(req, res, next) {
   })
 });
 
-
-
-router.post('/movies', function(req, res, next) {
+//using upsert
+router.post('/movies', (req, res, next) => {
   let movie = req.body;
-  // update existing movie
-  if (movie._id) {
-    //TODO: fix this later. Make it nice and DRY.
-    Movie.update({_id:movie._id}, {title:movie.title, director:movie.director, picture: movie.picture})
+  Movie.update({_id:movie._id}, movie, {upsert:true})
     .then((results) => {
       res.sendStatus(200);
     }).catch((err) => {
       console.log('meh', err);
     });
-  // create new movie
-  } else {
-    Movie.create({title:movie.title, director:movie.director, picture: movie.picture}).then((results) => {
-      Movie.find().then((movies) => {
-        res.json({data:movies});
-      }).catch((err) => {
-        console.log('rrrrgh', err);
-      });
-    }).catch((err) => {
-      console.log('blech', err);
-    });
-  }
 });
+
+// router.post('/movies', function(req, res, next) {
+//   let movie = req.body;
+//   // update existing movie
+//   if (movie._id) {
+//     //TODO: fix this later. Make it nice and DRY.
+//     Movie.update({_id:movie._id}, {title:movie.title, director:movie.director, picture: movie.picture})
+//     .then((results) => {
+//       res.sendStatus(200);
+//     }).catch((err) => {
+//       console.log('meh', err);
+//     });
+//   // create new movie
+//   } else {
+//     Movie.create({title:movie.title, director:movie.director, picture: movie.picture}).then((results) => {
+//       Movie.find().then((movies) => {
+//         res.json({data:movies});
+//       }).catch((err) => {
+//         console.log('rrrrgh', err);
+//       });
+//     }).catch((err) => {
+//       console.log('blech', err);
+//     });
+//   }
+// });
 
 router.delete('/movies/:_id', (req, res) => {
   let movieId = req.params._id;

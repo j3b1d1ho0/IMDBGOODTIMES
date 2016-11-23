@@ -3,11 +3,15 @@ namespace imdbclone.Controllers {
     export class HomeController {
         public movies;
         public newMovie;
-        
+        public sendRating(movie) {
+            this.movieService.editMovie(movie).then(() => {
+                this.currentMovies();
+            });
+        }
         public movieAdd() {
             this.movieService.storeMovie(this.newMovie).then((movies) => {
                 console.log(movies)
-                this.movies = movies.data;
+                this.currentMovies();
             }).catch((err) => {
                 console.log(err)
             })
